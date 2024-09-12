@@ -40,12 +40,18 @@ function TypeWords(words = [], target = null, typeSpeed = 10, deleteSpeed = 10, 
     let remainingTime = 0; // To track time left for the next action
     let currentLoops = loops;
 
+    // Default cursor settings
+    let cursorVisible = false;
+    let cursorSymbol = '';
+
+    // Update the target text with or without the cursor symbol
     let updateTargetText = (newText, textColor) => {
         target.style.color = textColor;
+        let textWithCursor = cursorVisible ? newText + cursorSymbol : newText; // Append cursor symbol if visible
         if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
-            target.value = newText;
+            target.value = textWithCursor;
         } else {
-            target.innerText = newText;
+            target.innerText = textWithCursor;
         }
     };
 
@@ -60,31 +66,31 @@ function TypeWords(words = [], target = null, typeSpeed = 10, deleteSpeed = 10, 
     deleteSpeed = CheckForAcceptableValue("deleteSpeed", deleteSpeed, 10, "lt");
     pauseTime = CheckForAcceptableValue("pauseTime", pauseTime, 10, "lt");
     loops = CheckForAcceptableValue("loops", loops, 0, "lt");
-    bhvr.index = CheckForAcceptableValue("behavior index", bhvr.index, wordArray.length-1, "gt"); 
-    bhvr.index = CheckForAcceptableValue("behavior index", bhvr.index, 0, "lt"); 
-    if(bhvr.name != "forwards") bhvr.name = CheckForAcceptableValue("behavior name", bhvr.name, "none", "eq");
+    bhvr.index = CheckForAcceptableValue("behavior index", bhvr.index, wordArray.length - 1, "gt");
+    bhvr.index = CheckForAcceptableValue("behavior index", bhvr.index, 0, "lt");
+    if (bhvr.name != "forwards") bhvr.name = CheckForAcceptableValue("behavior name", bhvr.name, "none", "eq");
 
-    let effectBhvr = new BHVR(bhvr.name, bhvr.index); 
+    let effectBhvr = new BHVR(bhvr.name, bhvr.index);
 
     function performTypingAnimation(currentLoops) {
         if (currentLoops < 1 && loops !== 0) return; // Stop if loops are finished
         if (currentState === "pause") return; // Stop if paused
-    
+
         let word = wordArray[currentWordIndex];
         let delay = isDeleting ? deleteSpeed : typeSpeed;
-    
+
         // Typing phase
         if (!isDeleting && currentCharIndex < word.text.length) {
             updateTargetText(word.text.substring(0, currentCharIndex + 1), word.color);
             currentCharIndex++;
             remainingTime = typeSpeed;
-        } 
+        }
         // Deleting phase
         else if (isDeleting && currentCharIndex > 0) {
             updateTargetText(word.text.substring(0, currentCharIndex - 1), word.color);
             currentCharIndex--;
             remainingTime = deleteSpeed;
-        } 
+        }
         // Finished typing, pause before deleting
         else if (!isDeleting && currentCharIndex === word.text.length) {
             // Check if it's the last loop and should not delete
@@ -94,25 +100,25 @@ function TypeWords(words = [], target = null, typeSpeed = 10, deleteSpeed = 10, 
             }
             isDeleting = true;
             remainingTime = pauseTime;
-        } 
+        }
         // Finished deleting, move to next word
         else if (isDeleting && currentCharIndex === 0) {
             currentWordIndex++;
-    
+
             // Check if it's the last loop
             if (currentWordIndex >= wordArray.length) {
                 currentWordIndex = 0;
                 currentLoops--;
             }
-    
+
             isDeleting = false;
             remainingTime = pauseTime;
         }
-    
+
         pauseTimeouts.push(setTimeout(() => {
             performTypingAnimation(currentLoops);
         }, remainingTime));
-    }   
+    }
 
     function pause() {
         currentState = "pause";
@@ -143,16 +149,23 @@ function TypeWords(words = [], target = null, typeSpeed = 10, deleteSpeed = 10, 
         performTypingAnimation(currentLoops);
     }
 
+    function cursor(visible = false, symbol = '_') {
+        cursorVisible = visible;
+        cursorSymbol = symbol;
+    }
+
     // Start the animation
     performTypingAnimation(currentLoops);
 
-    // Return pause, resume, and reset methods
+    // Return pause, resume, reset, and cursor methods
     return {
         pause,
         resume,
-        reset
+        reset,
+        cursor // Expose cursor function
     };
 }
+
 
 
 
