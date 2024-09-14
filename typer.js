@@ -25,7 +25,7 @@ class BHVR
     }
 }
 
-function TypeWords(words = [], target = null, typeSpeed = 10, deleteSpeed = 10, pauseTime = 10, loops = 0, state = "play", bhvr = new BHVR()) {
+function TypeWords(words = [], target = null, typeSpeed = 250, deleteSpeed = 75, pauseTime = 1000, loops = 0, state = "play", bhvr = new BHVR()) {
     if (target == null) {
         console.error("No target assigned to TypeWords function");
         return;
@@ -39,10 +39,13 @@ function TypeWords(words = [], target = null, typeSpeed = 10, deleteSpeed = 10, 
     let isDeleting = false; // To track if we're in the delete phase
     let remainingTime = 0; // To track time left for the next action
     let currentLoops = loops;
+    let lastTypedTimestamp = 0; // To track when the last character was typed or deleted
 
     // Default cursor settings
     let cursorVisible = false;
     let cursorSymbol = '';
+    let cursorBlinkInterval = null;
+    let cursorBlinkSpeed = 500; // Default blink speed in ms
 
     // Update the target text with or without the cursor symbol
     let updateTargetText = (newText, textColor) => {
@@ -52,6 +55,33 @@ function TypeWords(words = [], target = null, typeSpeed = 10, deleteSpeed = 10, 
             target.value = textWithCursor;
         } else {
             target.innerText = textWithCursor;
+        }
+    };
+
+    // Function to toggle cursor visibility (blinking effect)
+    let blinkCursor = () => {
+        // Clear the interval if it's already running
+        if (cursorBlinkInterval) clearInterval(cursorBlinkInterval);
+
+        // If blink speed is 0, don't blink the cursor, keep it visible or hidden as is
+        if (cursorBlinkSpeed === 0) {
+            cursorVisible = true; // Keep cursor always visible if no blink
+            updateTargetText(target.innerText.slice(0, -cursorSymbol.length), target.style.color);
+            return;
+        }
+
+        // Start the blink animation independent of the typing/deleting
+        cursorBlinkInterval = setInterval(() => {
+            cursorVisible = !cursorVisible; // Toggle cursor visibility
+            updateTargetText(target.innerText.slice(0, -cursorSymbol.length), target.style.color);
+        }, cursorBlinkSpeed); // Blink at intervals of cursorBlinkSpeed
+    };
+
+    // Clear the blinking interval
+    let clearCursorBlink = () => {
+        if (cursorBlinkInterval) {
+            clearInterval(cursorBlinkInterval);
+            cursorBlinkInterval = null;
         }
     };
 
@@ -78,6 +108,12 @@ function TypeWords(words = [], target = null, typeSpeed = 10, deleteSpeed = 10, 
 
         let word = wordArray[currentWordIndex];
         let delay = isDeleting ? deleteSpeed : typeSpeed;
+
+        // Reset the blinking cursor every time a char is typed or deleted
+        cursorVisible = true; // Ensure the cursor is visible while typing/deleting
+        updateTargetText(word.text.substring(0, currentCharIndex), word.color); // Ensure the cursor resets after the char update
+        clearCursorBlink(); // Clear the blink timer to stop blinking
+        blinkCursor(); // Restart blinking cursor, but only after typing pauses
 
         // Typing phase
         if (!isDeleting && currentCharIndex < word.text.length) {
@@ -125,6 +161,7 @@ function TypeWords(words = [], target = null, typeSpeed = 10, deleteSpeed = 10, 
         isPaused = true;
         pauseTimeouts.forEach(timeout => clearTimeout(timeout));
         pauseTimeouts = [];
+        clearCursorBlink(); // Stop cursor blinking when paused
     }
 
     function resume() {
@@ -146,12 +183,21 @@ function TypeWords(words = [], target = null, typeSpeed = 10, deleteSpeed = 10, 
         currentLoops = loops;
         pauseTimeouts.forEach(timeout => clearTimeout(timeout));
         pauseTimeouts = [];
+        clearCursorBlink();
         performTypingAnimation(currentLoops);
     }
 
-    function cursor(visible = false, symbol = '_') {
+    function cursor(visible = false, blinkSpeed = 0, symbol = '_') {
         cursorVisible = visible;
         cursorSymbol = symbol;
+        blinkSpeed = CheckForAcceptableValue("Blink Speed", blinkSpeed, 0, "lt");
+        cursorBlinkSpeed = blinkSpeed;
+
+        if (cursorVisible) {
+            blinkCursor(); // Start blinking cursor independently
+        } else {
+            clearCursorBlink(); // Stop blinking if cursor is not visible
+        }
     }
 
     // Start the animation
@@ -162,9 +208,12 @@ function TypeWords(words = [], target = null, typeSpeed = 10, deleteSpeed = 10, 
         pause,
         resume,
         reset,
-        cursor // Expose cursor function
+        cursor 
     };
 }
+
+
+
 
 
 
