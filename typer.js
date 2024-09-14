@@ -258,4 +258,4 @@ function CheckForAcceptableValue(varName = "", value = null, def = null, checkTy
     return value; 
 }
 
-export { TypeWords }; 
+module.exports = TypeWords
