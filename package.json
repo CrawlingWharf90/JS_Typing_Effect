@@ -1,0 +1,25 @@
+{
+  "name": "crawling-typer",
+  "version": "1.0.0",
+  "description": "Transform your text with dynamic typing animations! crawling-typer lets you display an array of strings one at a time, each with its own color. Customize typing speed, delete speed, and pauses between strings. Enjoy full control with loop counts, post-loop behaviors, and built-in pause, resume, and reset functions. Plus, add a custom cursor to enhance your effect. Perfect for eye-catching text animations in your web projects!",
+  "main": "typer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CrawlingWharf90/JS_Typing_Effect.git"
+  },
+  "keywords": [
+    "crawling",
+    "typer",
+    "effect",
+    "web"
+  ],
+  "author": "CrawlingWharf90",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CrawlingWharf90/JS_Typing_Effect/issues"
+  },
+  "homepage": "https://github.com/CrawlingWharf90/JS_Typing_Effect#readme"
+}
