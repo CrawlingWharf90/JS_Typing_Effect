@@ -59,23 +59,27 @@ function TypeWords(words = [], target = null, typeSpeed = 250, deleteSpeed = 75,
     };
 
     // Function to toggle cursor visibility (blinking effect)
-    let blinkCursor = () => {
-        // Clear the interval if it's already running
-        if (cursorBlinkInterval) clearInterval(cursorBlinkInterval);
+	let blinkCursor = () => {
+		// Clear the interval if it's already running
+		if (cursorBlinkInterval) clearInterval(cursorBlinkInterval);
 
-        // If blink speed is 0, don't blink the cursor, keep it visible or hidden as is
-        if (cursorBlinkSpeed === 0) {
-            cursorVisible = true; // Keep cursor always visible if no blink
-            updateTargetText(target.innerText.slice(0, -cursorSymbol.length), target.style.color);
-            return;
-        }
+		// If blink speed is 0, don't blink the cursor, keep it visible or hidden as is
+		if (cursorBlinkSpeed === 0) {
+			cursorVisible = true; // Keep cursor always visible if no blink
+			updateTargetText(target.innerText.slice(0, -cursorSymbol.length), target.style.color);
+			return;
+		}
 
-        // Start the blink animation independent of the typing/deleting
-        cursorBlinkInterval = setInterval(() => {
-            cursorVisible = !cursorVisible; // Toggle cursor visibility
-            updateTargetText(target.innerText.slice(0, -cursorSymbol.length), target.style.color);
-        }, cursorBlinkSpeed); // Blink at intervals of cursorBlinkSpeed
-    };
+		// Start the blink animation independent of the typing/deleting
+		cursorBlinkInterval = setInterval(() => {
+			// Ensure we're not slicing to an empty string
+			if (target.innerText.length > 0) {
+				cursorVisible = !cursorVisible; // Toggle cursor visibility
+				let textWithoutCursor = target.innerText.slice(0, -cursorSymbol.length);
+				updateTargetText(cursorVisible ? textWithoutCursor : target.innerText, target.style.color);
+			}
+		}, cursorBlinkSpeed); // Blink at intervals of cursorBlinkSpeed
+	};
 
     // Clear the blinking interval
     let clearCursorBlink = () => {
@@ -188,6 +192,7 @@ function TypeWords(words = [], target = null, typeSpeed = 250, deleteSpeed = 75,
     }
 
     function cursor(visible = false, blinkSpeed = 0, symbol = '_') {
+        if(visible != true) visible = CheckForAcceptableValue("Cursor Visibility", visible, false, "eq");
         cursorVisible = visible;
         cursorSymbol = symbol;
         blinkSpeed = CheckForAcceptableValue("Blink Speed", blinkSpeed, 0, "lt");
