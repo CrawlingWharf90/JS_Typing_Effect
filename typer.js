@@ -58,6 +58,8 @@ function TypeWords(words = [], target = null, typeSpeed = 250, deleteSpeed = 75,
         }
     };
 
+    /*EDIT: In version v.1.1.1 cursor visable checks were added because it's inivisibility caused issue like the text being set to an empty string*/
+
     // Function to toggle cursor visibility (blinking effect)
 	let blinkCursor = () => {
 		// Clear the interval if it's already running
@@ -65,15 +67,17 @@ function TypeWords(words = [], target = null, typeSpeed = 250, deleteSpeed = 75,
 
 		// If blink speed is 0, don't blink the cursor, keep it visible or hidden as is
 		if (cursorBlinkSpeed === 0) {
-			cursorVisible = true; // Keep cursor always visible if no blink
-			updateTargetText(target.innerText.slice(0, -cursorSymbol.length), target.style.color);
-			return;
+            if(cursorVisible)
+            {
+                updateTargetText(target.innerText.slice(0, -cursorSymbol.length), target.style.color);
+                return;
+            }
 		}
 
 		// Start the blink animation independent of the typing/deleting
 		cursorBlinkInterval = setInterval(() => {
 			// Ensure we're not slicing to an empty string
-			if (target.innerText.length > 0) {
+			if (target.innerText.length > 0 && cursorVisible) {
 				cursorVisible = !cursorVisible; // Toggle cursor visibility
 				let textWithoutCursor = target.innerText.slice(0, -cursorSymbol.length);
 				updateTargetText(cursorVisible ? textWithoutCursor : target.innerText, target.style.color);
@@ -262,5 +266,7 @@ function CheckForAcceptableValue(varName = "", value = null, def = null, checkTy
 
     return value; 
 }
+
+//export { TypeWords }; //used for local testing
 
 export default TypeWords;

@@ -166,7 +166,7 @@ Symbol $\rightarrow$ sets the symbol that should be used as a cursor icon
 **JAVA SCRIPT**
 
 ```JS
-import TypeWords from 'https://cdn.jsdelivr.net/npm/crawling-typer@1.0.1/typer.js';
+import TypeWords from 'https://cdn.jsdelivr.net/npm/crawling-typer@1.1.1/typer.js';
 
 console.log("TypeWords: ", TypeWords);
 
@@ -199,7 +199,7 @@ typingEffect.cursor(true);
 **JAVA SCRIPT**
 
 ```JS
-import TypeWords from 'https://cdn.jsdelivr.net/npm/crawling-typer@1.1.0/typer.js';
+import TypeWords from 'https://cdn.jsdelivr.net/npm/crawling-typer@1.1.1/typer.js';
 
 const numberOfLoops = Math.floor(Math.random() * 10) + 1;
 const randIndex = Math.floor(Math.random() * 2);
@@ -211,7 +211,7 @@ let resetBtn = document.getElementById("reset");
 let pauseBtn = document.getElementById("pause"); 
 let playBtn = document.getElementById("resume"); 
 
-const typingEffect = TypeWords([{text:"She Loves Me", color:"#319507FF"}, {text:"She Loves Me Not", color:"#A91818FF"}], target, 500, 100, 1500, numberOfLoops, "pause", {name:"forwards", index: randIndex});
+const typingEffect = TypeWords([{text:"She Loves Me", color:"#319507FF"}, {text:"She Loves Me Not", color:"#A91818FF"}], target, 150, 100, 1500, numberOfLoops, "pause", {name:"forwards", index: randIndex});
 
 
 resetBtn.addEventListener('click', () => { typingEffect.reset(); });
