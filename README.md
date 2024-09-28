@@ -19,7 +19,7 @@ Quickly customize settings such as typing speed, delete speed, pause time betwee
 To use crawling typer in your project just import the npm package in the JavaScript File you want to use the effect in by adding the following import statement at the top of your page: 
 
 ```JS
-import TypeWords from 'https://cdn.jsdelivr.net/npm/crawling-typer@1.1.0/typer.js';
+import TypeWords from 'https://cdn.jsdelivr.net/npm/crawling-typer@1.1.1/typer.js';
 ```
 
 <h3 id="type-words-function">Type Words Function</h3>
@@ -28,30 +28,30 @@ import TypeWords from 'https://cdn.jsdelivr.net/npm/crawling-typer@1.1.0/typer.j
 function TypeWords(words, target, typeSpeed, deleteSpeed, pauseTime, loops, state, bhvr)
 ```
 
-Words $\rightarrow$ is the array of words that you want to display, each word has to paramaters:<br>
+Words -> is the array of words that you want to display, each word has to paramaters:<br>
 
     text: is the string that you want to type
     color: the color of the this string
 
-Target $\rightarrow$ is the target element where the words should be typed
+Target -> is the target element where the words should be typed
 
-Type Speed $\rightarrow$ is the time in miliseconds (ms) that should be waited after a char is displayed until the next one is typed
+Type Speed -> is the time in miliseconds (ms) that should be waited after a char is displayed until the next one is typed
 
 > By default its' value is set to 250ms
 
-Delete Speed $\rightarrow$ is the time in miliseconds (ms) that should be waited after a char is removed until the next one is deleted
+Delete Speed -> is the time in miliseconds (ms) that should be waited after a char is removed until the next one is deleted
 
 > By default its' value is set to 75ms
 
-Pause Time $\rightarrow$ is the time in miliseconds (ms) that should be waited after a word has been fully typed to when it starts getting deleted, also used for the time since a word has been fully deleted to when the next one starts being typed
+Pause Time -> is the time in miliseconds (ms) that should be waited after a word has been fully typed to when it starts getting deleted, also used for the time since a word has been fully deleted to when the next one starts being typed
 
 > By default its' value is set to 1000ms
 
-Loops $\rightarrow$ The number of times the array should loop before the effect stops, if this number is set to 0 then the effect will loop endlessly
+Loops -> The number of times the array should loop before the effect stops, if this number is set to 0 then the effect will loop endlessly
 
 > By default its' value is set to 0
 
-State $\rightarrow$ The starting state of the effect, this paramater takes only two values:
+State -> The starting state of the effect, this paramater takes only two values:
 <p style="margin-left:40px">
     <b>
         Play: <i>The effect will start with the typing animation running</i>
@@ -64,7 +64,7 @@ State $\rightarrow$ The starting state of the effect, this paramater takes only 
 
 > By default its' value is set to play
 
-BHVR (Behaviour) $\rightarrow$ This defines how the effect should behave after the effect has looped a finite amount of times.It takes two paramagters: 
+BHVR (Behaviour) -> This defines how the effect should behave after the effect has looped a finite amount of times.It takes two paramagters: 
 
     Name: name of the behaviour case that should be applied.
           Name takes the following values: 
@@ -124,7 +124,7 @@ BHVR (Behaviour) $\rightarrow$ This defines how the effect should behave after t
     Adds a cursor to the head of the typed word.
     Takes the following parameters:
 
-Visible $\rightarrow$ makes the cursor visible, it takes only takes two values: 
+Visible -> makes the cursor visible, it takes only takes two values: 
 <p style="margin-left:40px">
     <b>
         False: <i>The cursor will not be shown</i>
@@ -137,13 +137,13 @@ Visible $\rightarrow$ makes the cursor visible, it takes only takes two values:
 
 > By default its' value is set to false
 
-Blink Speed $\rightarrow$ sets the speed at which the cursor should be blink, if it's set to 0 the cursor will remain still and not blink
+Blink Speed -> sets the speed at which the cursor should be blink, if it's set to 0 the cursor will remain still and not blink
 
 > NOTE: It is worth noteing that every time a character is typed this timer resets
 
 > By default its' value is set to 0
 
-Symbol $\rightarrow$ sets the symbol that should be used as a cursor icon
+Symbol -> sets the symbol that should be used as a cursor icon
 
 > By default this is set to an underscore ("_")
 
