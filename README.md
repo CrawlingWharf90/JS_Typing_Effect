@@ -58,7 +58,7 @@ State -> The starting state of the effect, this paramater takes only two values:
     </b>
     <br><br>
     <b>
-        Pause: <i>The effect will start without the typing animation running</i> {The animation will need to be started by using the <a href="Resume Effect">Resume</a> or <a href="Reset Effect">Reset</a> functions}
+        Pause: <i>The effect will start without the typing animation running</i> {The animation will need to be started by using the <a href="#resume-effect">Resume</a> or <a href="#reset-effect">Reset</a> functions}
     </b>
 </p>
 
